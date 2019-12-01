@@ -19,7 +19,8 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".AdminFunction" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ClinicEmployeeFunction"></activity>
+        <activity android:name=".ClinicEmployeeFunction" />
+        <activity android:name=".PatientFunction"></activity>
     </application>
 
 </manifest>
