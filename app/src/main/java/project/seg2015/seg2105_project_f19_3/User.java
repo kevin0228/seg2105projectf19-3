@@ -4,6 +4,8 @@ public abstract class User {
     private String account;
     private byte[] password;
 
+    public User() {}
+
     public User (String account, byte[] password) {
         this.account = account;
         this.password = password;

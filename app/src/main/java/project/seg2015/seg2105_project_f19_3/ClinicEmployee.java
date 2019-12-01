@@ -10,6 +10,10 @@ public class ClinicEmployee extends User {
     private String startTime;
     private String endTime;
 
+    public ClinicEmployee() {
+        super();
+    }
+
     public ClinicEmployee(String account, byte[] password) {
         super(account, password);
     }

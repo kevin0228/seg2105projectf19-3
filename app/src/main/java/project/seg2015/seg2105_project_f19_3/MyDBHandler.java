@@ -225,4 +225,24 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         return services;
     }
+
+    public ArrayList<ClinicEmployee> findAllClinics() {
+        ArrayList<ClinicEmployee> clinics = new ArrayList<>();
+
+        String query = "Select * FROM " + TABLE_EMPLOYEE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        while (cursor.moveToNext()) {
+            ClinicEmployee clinic = new ClinicEmployee();
+            clinic.setAddress(cursor.getString(1));
+            clinic.setPhone(cursor.getString(2));
+            clinic.setClinicName(cursor.getString(3));
+            clinic.setStartTime(cursor.getString(7));
+            clinic.setEndTime(cursor.getString(8));
+            clinics.add(clinic);
+        }
+        return clinics;
+    }
 }
