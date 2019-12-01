@@ -270,6 +270,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             waiting += 15;
             if (cursor.getString(1).equals(patientAccount)) {
                 exist = true;
+                waiting -= 15;
             }
         }
         if (!exist) {

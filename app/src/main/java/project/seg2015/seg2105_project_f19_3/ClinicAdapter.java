@@ -75,9 +75,9 @@ public class ClinicAdapter extends BaseAdapter {
                 String account = clinic.getAccount();
                 int waiting = dbHandler.bookClinic(account, LoginActivity.user.getAccount());
                 if (waiting == 0) {
-                    Toast.makeText(mContext, "Now it is your turn!", Toast.LENGTH_SHORT);
+                    Toast.makeText(mContext, "Now it is your turn!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(mContext, "You are in the booking queue now, please wait for about " + waiting + " minutes", Toast.LENGTH_SHORT);
+                    Toast.makeText(mContext, "You are in the booking queue now, please wait for about " + waiting + " minutes", Toast.LENGTH_LONG).show();
                 }
             }
         });
