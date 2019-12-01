@@ -72,7 +72,7 @@ public class ClinicAdapter extends BaseAdapter {
         viewHolder.book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String account = clinic.getAccount();
+                 String account = clinic.getAccount();
                 int waiting = dbHandler.bookClinic(account, LoginActivity.user.getAccount());
                 if (waiting == 0) {
                     Toast.makeText(mContext, "Now it is your turn!", Toast.LENGTH_SHORT).show();
