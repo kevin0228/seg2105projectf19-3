@@ -33,7 +33,7 @@ public class AdminFunction extends AppCompatActivity {
         roles = findViewById(R.id.rolesSpinner);
         list = findViewById(R.id.clinic_list_view);
         dbHandler = new MyDBHandler(this);
-        list.setAdapter(new ClinicAdapter(this, dbHandler.findAllClinics(), false));
+        list.setAdapter(new ClinicAdapter(this, dbHandler.findAllClinics(), false, null));
     }
 
 

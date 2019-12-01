@@ -15,6 +15,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String TABLE_SERVICES = "services";
     public static final String TABLE_USERS = "users";
     public static final String TABLE_EMPLOYEE = "employeeprofiles";
+    public static final String TABLE_BOOK = "books";
+
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_SERVICENAME = "servicename";
     public static final String COLUMN_SKU = "cost";
@@ -33,6 +35,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_SERVICES_OFFERED = "services_offered";
     public static final String COLUMN_START_TIME = "start_time";
     public static final String COLUMN_END_TIME = "end_time";
+
+    public static final String COLUMN_CLINIC_ACCOUNT_BOOK = "clinic_account";
+    public static final String COLUMN_PATIENT_ACCOUNT_BOOK = "patient_account";
 
     public MyDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,9 +62,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 + COLUMN_SERVICES_OFFERED + " TEXT,"
                 + COLUMN_START_TIME + " TEXT,"
                 + COLUMN_END_TIME + " TEXT" + ")";
+        String CREATE_BOOK_TABLE = "CREATE TABLE " +
+                TABLE_BOOK + "("
+                + COLUMN_CLINIC_ACCOUNT_BOOK + " TEXT," + COLUMN_PATIENT_ACCOUNT_BOOK + " TEXT" + ")";
         db.execSQL(CREATE_PRODUCTS_TABLE);
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_EMPLOYEES_TABLE);
+        db.execSQL(CREATE_BOOK_TABLE);
     }
 
     @Override
@@ -68,6 +77,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SERVICES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EMPLOYEE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOK);
         onCreate(db);
     }
 
@@ -235,14 +245,37 @@ public class MyDBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
 
         while (cursor.moveToNext()) {
-            ClinicEmployee clinic = new ClinicEmployee();
+            ClinicEmployee clinic = new ClinicEmployee(cursor.getString(0));
             clinic.setAddress(cursor.getString(1));
             clinic.setPhone(cursor.getString(2));
             clinic.setClinicName(cursor.getString(3));
+            clinic.setInsuranceTypes(cursor.getString(4).split("_"));
+            clinic.setPaymentMethods(cursor.getString(5).split("_"));
+            clinic.setServices(cursor.getString(6).split("_"));
             clinic.setStartTime(cursor.getString(7));
             clinic.setEndTime(cursor.getString(8));
             clinics.add(clinic);
         }
         return clinics;
+    }
+
+    public int bookClinic(String account, String patientAccount) {
+        int waiting = 0;
+        String query = "Select * FROM " + TABLE_BOOK + " WHERE " + COLUMN_CLINIC_ACCOUNT_BOOK + "='" + account + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        boolean exist = false;
+        while (cursor.moveToNext()) {
+            waiting += 15;
+            if (cursor.getString(1).equals(patientAccount)) {
+                exist = true;
+            }
+        }
+        if (!exist) {
+            String book = "INSERT INTO " + TABLE_BOOK + " VALUES('" + account + "', '" + patientAccount + "')";
+            db.execSQL(book);
+        }
+        return waiting;
     }
 }

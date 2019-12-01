@@ -151,7 +151,6 @@ public class ClinicEmployeeFunction extends AppCompatActivity implements View.On
                     if (type3Box.isChecked())
                         types += type3Box.getText().toString() + "_";
                     for (int i = 14; i < tableLayout.getChildCount(); i++) {
-                        System.out.println(((CheckBox) ((TableRow) tableLayout.getChildAt(i)).getChildAt(0)).getText().toString());
                         if (((CheckBox) ((TableRow) tableLayout.getChildAt(i)).getChildAt(0)).isChecked())
                             services += ((CheckBox) ((TableRow) tableLayout.getChildAt(i)).getChildAt(0)).getText().toString() + "_";
                     }

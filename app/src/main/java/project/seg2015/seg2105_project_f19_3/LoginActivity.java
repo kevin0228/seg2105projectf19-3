@@ -61,8 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(intent);
                     this.finish();
                 } else {
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra("type", type.toString());
+                    Intent intent = new Intent(this, PatientFunction.class);
                     intent.putExtra("account", accountEdit.getText().toString());
                     startActivity(intent);
                     this.finish();

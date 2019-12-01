@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,12 +17,14 @@ public class ClinicAdapter extends BaseAdapter {
     public Context mContext;
     public LayoutInflater mLayoutInflater;
     boolean bookVisible;
+    private MyDBHandler dbHandler;
 
-    public ClinicAdapter(Context mContext, List<ClinicEmployee> mList, boolean bookVisible) {
+    public ClinicAdapter(Context mContext, List<ClinicEmployee> mList, boolean bookVisible, MyDBHandler dbHandler) {
         this.mContext = mContext;
         this.mList = mList;
         mLayoutInflater = LayoutInflater.from(mContext);
         this.bookVisible = bookVisible;
+        this.dbHandler = dbHandler;
     }
 
     @Override
@@ -57,7 +60,7 @@ public class ClinicAdapter extends BaseAdapter {
         }else {
             viewHolder= (ViewHolder) convertView.getTag();
         }
-        ClinicEmployee clinic = mList.get(position);
+        final ClinicEmployee clinic = mList.get(position);
         viewHolder.name.setText(clinic.getClinicName());
         viewHolder.address.setText(clinic.getAddress());
         viewHolder.phone.setText("Phone: " + clinic.getPhone());
@@ -66,6 +69,18 @@ public class ClinicAdapter extends BaseAdapter {
         viewHolder.services.setText(clinic.getServicesString());
         viewHolder.payment.setText(clinic.getPaymentMethodsString());
         viewHolder.book.setVisibility(bookVisible ? View.VISIBLE : View.INVISIBLE);
+        viewHolder.book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String account = clinic.getAccount();
+                int waiting = dbHandler.bookClinic(account, LoginActivity.user.getAccount());
+                if (waiting == 0) {
+                    Toast.makeText(mContext, "Now it is your turn!", Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(mContext, "You are in the booking queue now, please wait for about " + waiting + " minutes", Toast.LENGTH_SHORT);
+                }
+            }
+        });
         return convertView;
     }
 
