@@ -5,4 +5,9 @@ public class Admin extends User {
     public Admin(String account, byte[] password) {
         super(account, password);
     }
+
+    @Override
+    public String getType() {
+        return "Admin";
+    }
 }

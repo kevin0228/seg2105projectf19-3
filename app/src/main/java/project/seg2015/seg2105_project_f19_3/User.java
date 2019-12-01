@@ -1,6 +1,6 @@
 package project.seg2015.seg2105_project_f19_3;
 
-public class User {
+public abstract class User {
     private String account;
     private byte[] password;
 
@@ -16,4 +16,6 @@ public class User {
     public byte[] getPassword() {
         return password;
     }
+
+    public abstract String getType();
 }

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">seg2105-project-f19-3</string>
+    <string name="cash">Cash</string>
+    <string name="credit_card">CreditCard</string>
+    <string name="debit_card">DebitCard</string>
+    <string name="insurance_type1">insurance type1</string>
+    <string name="insurance_type2">insurance type2</string>
+    <string name="insurance_type3">insurance type3</string>
+    <string name="update">UPDATE</string>
+    <string name="cancel">CANCEL</string>
 </resources>

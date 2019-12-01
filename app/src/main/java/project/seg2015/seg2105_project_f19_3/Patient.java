@@ -4,4 +4,9 @@ public class Patient extends User {
     public Patient(String account, byte[] password) {
         super(account, password);
     }
+
+    @Override
+    public String getType() {
+        return "Patient";
+    }
 }

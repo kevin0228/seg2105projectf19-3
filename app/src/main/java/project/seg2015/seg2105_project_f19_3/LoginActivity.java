@@ -1,5 +1,6 @@
 package project.seg2015.seg2105_project_f19_3;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,9 +20,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private Button signIn;
     private Button signUp;
+    public static Context context;
+    public static User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_login);
 
         accountEdit = findViewById(R.id.account_edit);
@@ -44,13 +49,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
         } else if (v.getId() == R.id.sign_in) {
             UserType type = admin.isChecked() ? UserType.Admin : (patient.isChecked() ? UserType.Patient : UserType.ClinicEmployee);
-            boolean success = UserManager.getInstance().signIn(type, accountEdit.getText().toString(), Util.stringToHash(passwordEdit.getText().toString()));
-            if (success) {
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("type", type.toString());
-                intent.putExtra("account", accountEdit.getText().toString());
-                startActivity(intent);
-                this.finish();
+            user = UserManager.getInstance().signIn(type, accountEdit.getText().toString(), Util.stringToHash(passwordEdit.getText().toString()));
+            if (user != null) {
+                if (type == UserType.Admin){
+                    Intent intent = new Intent(this, AdminFunction.class);
+                    startActivity(intent);
+                    this.finish();
+                } else if (type == UserType.ClinicEmployee){
+                    Intent intent = new Intent(this, ClinicEmployeeFunction.class);
+                    intent.putExtra("account", accountEdit.getText().toString());
+                    startActivity(intent);
+                    this.finish();
+                } else {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra("type", type.toString());
+                    intent.putExtra("account", accountEdit.getText().toString());
+                    startActivity(intent);
+                    this.finish();
+                }
             } else {
                 Toast.makeText(this, "Account or password is wrong.", Toast.LENGTH_SHORT).show();
             }
