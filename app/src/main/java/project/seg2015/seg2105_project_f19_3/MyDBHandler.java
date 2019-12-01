@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -38,9 +39,10 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public static final String COLUMN_CLINIC_ACCOUNT_BOOK = "clinic_account";
     public static final String COLUMN_PATIENT_ACCOUNT_BOOK = "patient_account";
-
+    Context context;
     public MyDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -169,6 +171,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 
         if (cursor.moveToFirst()) {
+//            Toast.makeText(context, cursor.getString(1), Toast.LENGTH_LONG).show();
             employee.setAddress(cursor.getString(1));
             employee.setPhone(cursor.getString(2));
             employee.setClinicName(cursor.getString(3));
@@ -184,7 +187,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public void updateEmployeeProfile(ClinicEmployee employee) {
         String update = "UPDATE " + TABLE_EMPLOYEE + " SET "
-                + COLUMN_ADDRESS + " = \"" + employee.getAddress() + "\", "
+                + COLUMN_ADDRESS + " = '" + employee.getAddress() + "', "
                 + COLUMN_PHONE + " = \"" + employee.getPhone() + "\", "
                 + COLUMN_CLINIC_NAME + " = \"" + employee.getClinicName() + "\", "
                 + COLUMN_INSURANCE_TYPE + " = \"" + employee.getInsuranceTypeString() + "\", "
